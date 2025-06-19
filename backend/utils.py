@@ -8,6 +8,7 @@ __data_columns = None
 __model = None
 
 def get_region_names():
+    __regions = [col.replace('region_', '') for col in __data_columns[3:] if col.startswith('region_')]
     return __regions
 
 def get_estimated_price(bhk, area, region, type):
