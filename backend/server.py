@@ -1,9 +1,12 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import utils
 
 utils.load_saved_artifacts()
 
 app = Flask(__name__)
+
+CORS(app)
 
 
 @app.route("/ping")

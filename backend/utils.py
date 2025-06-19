@@ -13,21 +13,31 @@ def get_region_names():
 
 def get_estimated_price(bhk, area, region, type):
     # Set one-hot encoded region and type
-    region_col = 'region_' + region
-    type_col = 'type_' + type
+    region_col = 'region_' + region.lower()
+    type_col = 'type_' + type.lower()
+
+    print(f"Region column: {region_col}, Type column: {type_col}")
     
     try:
         region_index = __data_columns.index(region_col.lower())
-        type_index = __data_columns.index(type_col.lowe())
+        type_index = __data_columns.index(type_col.lower())
     except:
         region_index = -1
         type_index = -1
+
+    print(f"Region index: {region_index}, Type index: {type_index}")
 
     x = np.zeros(len(__data_columns))
 
     # Set bhk and area by column name to avoid column order issues
     x[0] = bhk
     x[1] = area
+
+    # Set region and type if they exist in the data columns
+    if region_index >= 0:
+        x[region_index] = 1
+    if type_index >= 0:
+        x[type_index] = 1
 
     # Predict using the model with proper feature names
     return round(__model.predict(pd.DataFrame([x], columns=__data_columns))[0], 2)
