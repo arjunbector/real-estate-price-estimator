@@ -1,6 +1,10 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import utils
+import os 
+
+from dotenv import load_dotenv
+load_dotenv()
 
 utils.load_saved_artifacts()
 
@@ -37,6 +41,9 @@ def estimate_price():
     })
 
 
+
+
 if __name__ == "__main__":
-    print("Starting server...")
-    app.run()
+    port = int(os.environ.get("PORT", 4000))
+    print(f"Starting server on port {port}...")
+    app.run(port=port)
